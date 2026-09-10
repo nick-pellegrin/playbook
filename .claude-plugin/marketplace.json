@@ -1,0 +1,14 @@
+{
+  "name": "playbook",
+  "description": "The playbook plugin: playbooks, principles, and role agents for rigorous engineering work in Claude Code.",
+  "owner": {
+    "name": "Nick Pellegrin"
+  },
+  "plugins": [
+    {
+      "name": "playbook",
+      "source": "./",
+      "description": "Routes a task to a matching playbook, then works it with principles, deliberate subagents, and verified results."
+    }
+  ]
+}

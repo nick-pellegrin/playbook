@@ -1,0 +1,9 @@
+{
+  "name": "playbook",
+  "displayName": "Playbook",
+  "version": "0.1.0",
+  "description": "Routes a task to a matching playbook, then works it with principles, deliberate subagents, and verified results.",
+  "author": { "name": "Nick Pellegrin" },
+  "license": "MIT",
+  "keywords": ["workflow", "principles", "review", "verification"]
+}
