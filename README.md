@@ -8,17 +8,32 @@ Forked from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Laur
 
 ## Install
 
-Clone it into your user skills directory. That is the whole install.
+Clone it into your user skills directory. That is the whole install. Use the line for the shell you are actually in.
 
 ```bash
+# macOS, Linux, Git Bash, WSL
 git clone https://github.com/nick-pellegrin/playbook.git ~/.claude/skills/playbook
 ```
 
-Claude Code discovers a plugin sitting in `~/.claude/skills/<name>/` and loads it as `<name>@skills-dir`: all 64 skills, all 11 agents, and the hooks. There is no marketplace step and no install command. Confirm it with:
+```bat
+:: Windows cmd.exe
+git clone https://github.com/nick-pellegrin/playbook.git "%USERPROFILE%\.claude\skills\playbook"
+```
+
+```powershell
+# Windows PowerShell
+git clone https://github.com/nick-pellegrin/playbook.git "$env:USERPROFILE\.claude\skills\playbook"
+```
+
+`cmd.exe` and PowerShell do not expand `~`. If git echoes `Cloning into '~/.claude/skills/playbook'...` with the tilde still in it, it just made a folder literally named `~` in your current directory. Delete that folder and run the line for your shell.
+
+Claude Code discovers a plugin sitting in `<home>/.claude/skills/<name>/` and loads it as `<name>@skills-dir`: all 64 skills, all 11 agents, and the hooks. There is no marketplace step and no install command. Verify before starting a session:
 
 ```bash
 claude plugin details playbook@skills-dir
 ```
+
+That prints the component inventory when it worked, and errors when it did not. A new session then lists the skills.
 
 If you are working on the plugin from somewhere else, link that directory in instead of cloning, so your edits are live:
 
