@@ -8,35 +8,38 @@ Forked from [pstack](https://github.com/cursor/plugins/tree/main/pstack) by Laur
 
 ## Install
 
-The plugin is a plain directory. Two ways to load it.
-
-**As a skills-directory plugin (recommended while you are still editing it).** Symlink or copy the tree into your user skills directory. Edits to a `SKILL.md` take effect live, with no marketplace step.
+Clone it into your user skills directory. That is the whole install.
 
 ```bash
-# macOS / Linux
-ln -s "$PWD/playbook" ~/.claude/skills/playbook
+git clone https://github.com/nick-pellegrin/playbook.git ~/.claude/skills/playbook
 ```
 
-```powershell
-# Windows, from an elevated prompt
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude\skills\playbook" -Target "$PWD\playbook"
-```
-
-**As an installed plugin.** This directory is its own single-plugin marketplace (`.claude-plugin/marketplace.json`), so it installs straight from a path or a repo.
+Claude Code discovers a plugin sitting in `~/.claude/skills/<name>/` and loads it as `<name>@skills-dir`: all 64 skills, all 11 agents, and the hooks. There is no marketplace step and no install command. Confirm it with:
 
 ```bash
-claude plugin marketplace add ./playbook      # or <owner>/<repo> once it is pushed
-claude plugin install playbook@playbook
+claude plugin details playbook@skills-dir
 ```
 
-Either way, verify both manifests before using it:
+If you are working on the plugin from somewhere else, link that directory in instead of cloning, so your edits are live:
 
 ```bash
-claude plugin validate ./playbook/.claude-plugin/plugin.json --strict
-claude plugin validate ./playbook/.claude-plugin/marketplace.json --strict
+ln -s /path/to/playbook ~/.claude/skills/playbook                    # macOS, Linux
+cmd /c mklink /J "%USERPROFILE%\.claude\skills\playbook" C:\path\to\playbook   # Windows, no admin needed
 ```
 
-Then in a session, `/reload-plugins` picks up any edit.
+`/reload-plugins` picks up an edit mid-session. To uninstall, delete the directory.
+
+The repo is also a valid single-plugin marketplace (`.claude-plugin/marketplace.json`), so `claude plugin marketplace add nick-pellegrin/playbook` plus `claude plugin install playbook@playbook` works if you would rather have versioned installs and `claude plugin update`. You do not need it for personal use.
+
+### Cost
+
+The plugin adds **~4.8k tokens to every session** for its 75 component descriptions. Check it yourself, and see which components are worth their rent:
+
+```bash
+claude plugin details playbook@skills-dir
+```
+
+Bodies load only on invoke. Roughly 70% of the always-on figure is description text and the rest is per-component framing, so the cheapest way down is deleting skill directories you never route to. Shortening descriptions works too, but each word you cut is a word the router no longer has.
 
 ### Optional pieces
 
